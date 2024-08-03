@@ -90,6 +90,14 @@ async function startServer() {
             })
         }
     })
+
+    app.delete("/note/:noteId", (req, res) => {
+        console.log("Delete request to /note/:noteId")
+        console.log(`[Server] Request body: ${JSON.stringify(req.params)}`)
+        NoteModel.findOneAndDelete({id: req.params.noteId}).then(() => {
+            console.log(`Delete Note with id ${req.params.noteId} from DB.`)
+        })
+    })
 }
 
 startServer()

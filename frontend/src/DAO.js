@@ -36,4 +36,13 @@ const updateAllNotes = (notes) => {
     }).then((res) => console.log(`[DAO] Update notes response: ${JSON.stringify(res)}`))
 }
 
-export { fetchNotes, fetchAiResponse, fetchGptResponse, updateAllNotes };
+const deleteNote = (noteId) => {
+    fetch(`http://localhost:2333/note/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => console.log(`[DAO] Delete note response: ${JSON.stringify(res)}`))
+}
+
+export { fetchNotes, fetchAiResponse, fetchGptResponse, updateAllNotes , deleteNote};

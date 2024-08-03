@@ -5,6 +5,10 @@ import {useState} from "react";
 
 const NoteSelector = ({notes, openNote, titleEditingId, setTitleEditingId, setNotes} ) => {
     const [selectedNote, setSelectedNote] = useState(null)
+    let enableId = selectedNote
+    if (titleEditingId !== null){
+        enableId = titleEditingId
+    }
     return <Stack style={{margin: "0", padding: "0"}}>{
         notes.map((note) => {
             return <SelectorItem

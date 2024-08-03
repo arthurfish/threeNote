@@ -2,8 +2,8 @@ import {useEffect, useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import {fetchAiResponse, fetchNotes, updateAllNotes} from "./DAO.js";
-import {Col, Container, Row, Stack} from "react-bootstrap";
-import {BiFile, BiLogoFacebook, BiLogoInstagram, BiLogoTwitter} from "react-icons/bi";
+import {Button, Col, Container, Row, Stack} from "react-bootstrap";
+import {BiFile, BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiPlus} from "react-icons/bi";
 import { GoCircle } from "react-icons/go";
 import "bootstrap/dist/css/bootstrap.min.css"
 import NoteSelector from "./NoteSelector/NoteSelector.jsx";
@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css"
 import ReactQuill from "react-quill";
 import SquareButton from "./SquareButton.jsx";
 import AiResponse from "./AiResponse.jsx";
+import {v1 as uuid} from 'uuid'
 
 function App() {
     const [notes, setNotes] = useState([])
@@ -26,6 +27,15 @@ function App() {
         }
         updateAllNotes(notes)
     }, [notes]);
+
+    const createNewNote = () => {
+        const newNote = {id: uuid(), title: "New Note", content: "\n"}
+        setNotes((prevNotes) => {
+            return [...prevNotes, newNote]
+        })
+        setCurrNoteId(newNote.id)
+        setTitleEditingId(newNote.id)
+    }
 
     return <Container style={{overflow:"visible", margin:"0", width:"100vw"}}>
         <Row style={{height:"100vh", width:"100vw"}}>
@@ -60,6 +70,21 @@ function App() {
                         </Col>
                     </Row>
                 </Container>
+                <div>
+                    <Container style={{padding:"0", margin:"0", height:"5rem", marginBottom:"1rem"}}>
+                        <Row onClick={createNewNote}>
+                            <Col xs={3}/>
+                            <Col xs={9} style={{}}>
+                                <p style={{fontFamily:"Poppins", fontWeight:"normal", fontSize:"30px", textAlign:"start"}}>＋ New</p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={2}/>
+                            <Col xs={8} style={{borderBottom: "solid" }}/>
+                            <Col xs={2}/>
+                        </Row>
+                    </Container>
+                </div>
                 <NoteSelector notes={notes} setNotes={setNotes} openNote={(id) => setCurrNoteId(id)} titleEditingId={titleEditingId} setTitleEditingId={setTitleEditingId}/>
             </Col>
             <Col xs={"4"} style={{margin:"0", padding:"0", height:"100vh", overflowY:"scoll"}}>

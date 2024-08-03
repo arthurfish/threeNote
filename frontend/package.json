@@ -23,7 +23,8 @@
     "react-quill": "^2.0.0",
     "react-quilljs": "^2.0.4",
     "rehype-katex": "^7.0.0",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

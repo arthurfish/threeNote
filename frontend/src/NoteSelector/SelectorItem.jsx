@@ -3,6 +3,7 @@ import {BiCheck, BiEditAlt, BiFile, BiX} from "react-icons/bi";
 import _ from "lodash";
 import InputGroupText from "react-bootstrap/InputGroupText";
 import React from "react";
+import {deleteNote} from "../DAO.js";
 
 const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEditingId, setNotes}) => {
     const rightIconSize = "20px"
@@ -10,7 +11,7 @@ const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEd
         <div style={{margin: "-3px", padding: "0", height: "40px", backgroundColor: "#ffffff", width: "6px", borderTopRightRadius:"16px", borderBottomRightRadius:"16px"}}></div> : <div></div>
     const rightIcons = isSelected ? <>
         <BiEditAlt onClick={() => setNoteEditingId(id)} className={""} style={{width: rightIconSize, height: rightIconSize}}/>
-        <BiX className={""} style={{width: rightIconSize, height: rightIconSize, marginRight:"20px"}}/>
+        <BiX onClick={() => removeNoteWithConfirm(id, setNotes)} style={{width: rightIconSize, height: rightIconSize, marginRight:"20px"}}/>
     </> : <></>
     const [inputText, setInputText] = React.useState("")
 
@@ -25,6 +26,20 @@ const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEd
             return newNotes
         })
     }
+
+    const removeNote = (noteId, setNotes) => {
+        setNotes(prevNotes => {
+            deleteNote(noteId)
+            return prevNotes.filter(note => note.id !== noteId)
+        })
+    }
+
+    const removeNoteWithConfirm = (noteId, setNotes) => {
+        if (window.confirm("Are you sure to delete this note?")){
+            removeNote(noteId, setNotes)
+        }
+    }
+
     console.log("[SelectorItem] noteEditingId: " + noteEditingId)
     if (noteEditingId !== id) {
         return <div style={{margin: "0", padding: "0"}}>
