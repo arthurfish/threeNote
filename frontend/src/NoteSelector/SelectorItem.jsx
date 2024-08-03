@@ -1,0 +1,50 @@
+import {Button, Form, InputGroup, Stack} from "react-bootstrap";
+import {BiCheck, BiEditAlt, BiFile, BiX} from "react-icons/bi";
+import _ from "lodash";
+import InputGroupText from "react-bootstrap/InputGroupText";
+import React from "react";
+
+const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEditingId, setNotes}) => {
+    const rightIconSize = "20px"
+    const line = isSelected ?
+        <div style={{margin: "-3px", padding: "0", height: "40px", backgroundColor: "#ffffff", width: "6px", borderTopRightRadius:"16px", borderBottomRightRadius:"16px"}}></div> : <div></div>
+    const rightIcons = isSelected ? <>
+        <BiEditAlt onClick={() => setNoteEditingId(id)} className={""} style={{width: rightIconSize, height: rightIconSize}}/>
+        <BiX className={""} style={{width: rightIconSize, height: rightIconSize, marginRight:"20px"}}/>
+    </> : <></>
+    const [inputText, setInputText] = React.useState("")
+
+    const setTitle = (noteId, newTitle, setNotes) => {
+        setNoteEditingId(null)
+        setNotes(prevNotes => {
+            const remNotes = prevNotes.filter(note => note.id !== noteId)
+            const oldNote = remNotes.find(note => note.id === noteId)
+            const newNotes = remNotes + {id: noteId, title: newTitle, content: oldNote.content}
+            setNotes(newNotes)
+        })
+    }
+
+    if (noteEditingId !== id) {
+        return <div style={{margin: "0", padding: "0"}}>
+            <Stack style={{margin: "0", padding: "0", paddingBottom: "30px"}} direction={"horizontal"} gap={3}
+                   onClick={openNote}>
+                {line}
+                <BiFile className={"p-1"} style={{width: "10%", height: "10%"}}/>
+                <p className={""} style={{fontFamily: "Poppins", margin: "0", fontSize: "15px", textAlign:"start", width:"60%"}}>{_.truncate(title, {length: 15})}</p>
+                {rightIcons}
+            </Stack>
+        </div>
+    }else return <div style={{margin: "0", padding: "0"}}>
+        <Stack style={{margin: "0", padding: "0", paddingBottom: "30px"}} direction={"horizontal"} gap={3}>
+            {line}
+            <InputGroup>
+                <Form.Control onChange={(event) => setInputText(event.target.value)} type="text" placeholder="New Note" style={{border: "none", boxShadow: "none", outline: "none", fontFamily: "Poppins", fontSize: "15px", width: "160px"}}/>
+                <Button onClick={() => setTitle(id, inputText, setNotes)} className={"float-right"}><BiCheck /></Button>
+                <Button onClick={() => setNoteEditingId(null)}><BiX /></Button>
+            </InputGroup>
+            <p style={{fontFamily: "Poppins", margin: "0", fontSize: "15px"}}>{_.truncate(title, {length: 20})}</p>
+        </Stack>
+    </div>
+}
+
+export default SelectorItem;
