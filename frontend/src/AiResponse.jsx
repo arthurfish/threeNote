@@ -9,6 +9,7 @@ import 'katex/dist/katex.min.css'
 const AiResponse = ({quillRef}) => {
     const [aiResponse, setAiResponse] = useState("")
     const startCommunication = () => {
+        console.log("[AiResponse] startCommunication")
         setAiResponse("")
         quillRef.current.editor.focus()
         let selection = quillRef.current.editor.getSelection()

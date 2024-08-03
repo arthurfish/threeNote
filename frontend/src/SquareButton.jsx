@@ -3,6 +3,7 @@ import {fetchAiResponse} from "./DAO.js";
 const SquareButton = ({callback}) => {
     return <div
         onClick={() => {
+            console.log("[SquareButton] Clicked")
         callback()
     }}
         style={{

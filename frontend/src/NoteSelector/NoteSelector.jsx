@@ -3,7 +3,7 @@ import {Stack} from "react-bootstrap";
 import SelectorItem from "./SelectorItem.jsx";
 import {useState} from "react";
 
-const NoteSelector = ({notes, openNote, titleEditingId, setTitleEditingId, setNotes} ) => {
+const NoteSelector = ({notes, openNote, titleEditingId, setTitleEditingId, setNotes, selectCallback} ) => {
     const [selectedNote, setSelectedNote] = useState(null)
     let enableId = selectedNote
     if (titleEditingId !== null){
@@ -23,6 +23,8 @@ const NoteSelector = ({notes, openNote, titleEditingId, setTitleEditingId, setNo
                 noteEditingId={titleEditingId}
                 setNoteEditingId={setTitleEditingId}
                 setNotes={setNotes}
+                key={note.id}
+                selectCallback={selectCallback}
             />
         })
     }</Stack>

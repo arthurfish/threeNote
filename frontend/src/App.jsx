@@ -12,6 +12,8 @@ import ReactQuill from "react-quill";
 import SquareButton from "./SquareButton.jsx";
 import AiResponse from "./AiResponse.jsx";
 import {v1 as uuid} from 'uuid'
+import {quillModules, QuillToolbar} from "./QuillToolbar.jsx";
+import './quill-arthur-theme.css'
 
 function App() {
     const [notes, setNotes] = useState([])
@@ -25,14 +27,15 @@ function App() {
         if (notes?.length === 0) {
             fetchNotes(setNotes)
         }
-        updateAllNotes(notes)
     }, [notes]);
 
     const createNewNote = () => {
         const newNote = {id: uuid(), title: "New Note", content: "\n"}
         setNotes((prevNotes) => {
+            updateAllNotes([...prevNotes, newNote])
             return [...prevNotes, newNote]
         })
+
         setCurrNoteId(newNote.id)
         setTitleEditingId(newNote.id)
     }
@@ -85,10 +88,21 @@ function App() {
                         </Row>
                     </Container>
                 </div>
-                <NoteSelector notes={notes} setNotes={setNotes} openNote={(id) => setCurrNoteId(id)} titleEditingId={titleEditingId} setTitleEditingId={setTitleEditingId}/>
+                <NoteSelector notes={notes} setNotes={setNotes} openNote={(id) => setCurrNoteId(id)} titleEditingId={titleEditingId} setTitleEditingId={setTitleEditingId} selectCallback={() => updateAllNotes(notes)}/>
             </Col>
             <Col xs={"4"} style={{margin:"0", padding:"0", height:"100vh", overflowY:"scoll"}}>
+                <QuillToolbar saveNote={() => setNotes((prevNote) => {
+                    const remainNotes = prevNote.filter(x => x.id !== currNoteId)
+                    const oldNote = prevNote.filter(x => x.id === currNoteId)[0]
+                    quillRef.current.editor.focus()
+                    const content = quillRef.current.editor.getContents()
+                    console.log(`[App::SaveNote] oldNote: ${JSON.stringify(oldNote)} currNoteId: ${currNoteId}`)
+                    const newNote = {id: currNoteId, title: oldNote.title, content: content}
+                    updateAllNotes([...remainNotes, newNote])
+                    return [...remainNotes, newNote]
+                })}/>
                 <ReactQuill
+                    modules={quillModules}
                     style={{height:"100%", width:"100%"}}
                     ref={quillRef} theme={"snow"} value={notes.filter(x=>x.id===currNoteId)[0]?.content}/>
             </Col>

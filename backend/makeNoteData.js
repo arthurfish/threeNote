@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const {Note} = require('./NoteModel.js');
 const _ = require("lodash");
 const NoteModel = require('./NoteModel.js').NoteModel;
+const uuid = require('uuid')
 
 
 
@@ -12,7 +13,7 @@ const makeData = async (number) => {
     for(let i = 0; i < number; i++) {
         const note = new NoteModel({
             title: faker.lorem.sentence({min: 3, max: 6}),
-            id: _.uniqueId(),
+            id: uuid.v1(),
             content: {
                 ops: _.range(_.random(1, 3)).map(() => {
                     return {

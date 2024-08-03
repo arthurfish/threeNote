@@ -5,7 +5,7 @@ import InputGroupText from "react-bootstrap/InputGroupText";
 import React from "react";
 import {deleteNote} from "../DAO.js";
 
-const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEditingId, setNotes}) => {
+const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEditingId, setNotes, selectCallback}) => {
     const rightIconSize = "20px"
     const line = isSelected ?
         <div style={{margin: "-3px", padding: "0", height: "40px", backgroundColor: "#ffffff", width: "6px", borderTopRightRadius:"16px", borderBottomRightRadius:"16px"}}></div> : <div></div>
@@ -46,7 +46,7 @@ const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEd
             <Stack style={{margin: "0", padding: "0", paddingBottom: "30px"}} direction={"horizontal"} gap={3}>
                 {line}
                 <BiFile className={"p-1"} style={{width: "10%", height: "10%"}}/>
-                <p onClick={() => openNote(id)} className={""} style={{fontFamily: "Poppins", margin: "0", fontSize: "15px", textAlign:"start", width:"60%"}}>{_.truncate(title, {length: 15})}</p>
+                <p onClick={() => {openNote(id);selectCallback();}} className={""} style={{fontFamily: "Poppins", margin: "0", fontSize: "15px", textAlign:"start", width:"60%"}}>{_.truncate(title, {length: 15})}</p>
                 {rightIcons}
             </Stack>
         </div>

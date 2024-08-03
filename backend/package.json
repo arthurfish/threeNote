@@ -4,7 +4,8 @@
     "express": "^4.19.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.5.2",
-    "openai": "^4.54.0"
+    "openai": "^4.54.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1"
