@@ -26,5 +26,14 @@ const fetchGptResponse = (prompt) => {
     return new EventSource(`http://localhost:${port}/gpt/?prompt=${encodeURIComponent(prompt)}`)
 }
 
+const updateAllNotes = (notes) => {
+    fetch('http://localhost:2333/notes', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({notes})
+    }).then((res) => console.log(`[DAO] Update notes response: ${JSON.stringify(res)}`))
+}
 
-export { fetchNotes, fetchAiResponse };
+export { fetchNotes, fetchAiResponse, fetchGptResponse, updateAllNotes };

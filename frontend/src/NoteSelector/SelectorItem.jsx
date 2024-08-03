@@ -15,22 +15,23 @@ const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEd
     const [inputText, setInputText] = React.useState("")
 
     const setTitle = (noteId, newTitle, setNotes) => {
+        console.log("[SelectorItem] setTitle: " + noteId + " " + newTitle)
         setNoteEditingId(null)
         setNotes(prevNotes => {
             const remNotes = prevNotes.filter(note => note.id !== noteId)
-            const oldNote = remNotes.find(note => note.id === noteId)
-            const newNotes = remNotes + {id: noteId, title: newTitle, content: oldNote.content}
-            setNotes(newNotes)
+            const oldNote = prevNotes.find(note => note.id === noteId)
+            const newNotes = remNotes.concat({id: noteId, title: newTitle, content: oldNote.content})
+            console.log("[SelectorItem] newNotes: " + JSON.stringify(newNotes))
+            return newNotes
         })
     }
-
+    console.log("[SelectorItem] noteEditingId: " + noteEditingId)
     if (noteEditingId !== id) {
         return <div style={{margin: "0", padding: "0"}}>
-            <Stack style={{margin: "0", padding: "0", paddingBottom: "30px"}} direction={"horizontal"} gap={3}
-                   onClick={openNote}>
+            <Stack style={{margin: "0", padding: "0", paddingBottom: "30px"}} direction={"horizontal"} gap={3}>
                 {line}
                 <BiFile className={"p-1"} style={{width: "10%", height: "10%"}}/>
-                <p className={""} style={{fontFamily: "Poppins", margin: "0", fontSize: "15px", textAlign:"start", width:"60%"}}>{_.truncate(title, {length: 15})}</p>
+                <p onClick={() => openNote(id)} className={""} style={{fontFamily: "Poppins", margin: "0", fontSize: "15px", textAlign:"start", width:"60%"}}>{_.truncate(title, {length: 15})}</p>
                 {rightIcons}
             </Stack>
         </div>
@@ -42,7 +43,6 @@ const SelectorItem = ({title, id, openNote, isSelected, noteEditingId, setNoteEd
                 <Button onClick={() => setTitle(id, inputText, setNotes)} className={"float-right"}><BiCheck /></Button>
                 <Button onClick={() => setNoteEditingId(null)}><BiX /></Button>
             </InputGroup>
-            <p style={{fontFamily: "Poppins", margin: "0", fontSize: "15px"}}>{_.truncate(title, {length: 20})}</p>
         </Stack>
     </div>
 }

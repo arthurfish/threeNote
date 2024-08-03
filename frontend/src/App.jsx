@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import {fetchAiResponse, fetchNotes} from "./DAO.js";
+import {fetchAiResponse, fetchNotes, updateAllNotes} from "./DAO.js";
 import {Col, Container, Row, Stack} from "react-bootstrap";
 import {BiFile, BiLogoFacebook, BiLogoInstagram, BiLogoTwitter} from "react-icons/bi";
 import { GoCircle } from "react-icons/go";
@@ -24,6 +24,7 @@ function App() {
         if (notes?.length === 0) {
             fetchNotes(setNotes)
         }
+        updateAllNotes(notes)
     }, [notes]);
 
     return <Container style={{overflow:"visible", margin:"0", width:"100vw"}}>
@@ -59,7 +60,7 @@ function App() {
                         </Col>
                     </Row>
                 </Container>
-                <NoteSelector notes={notes} openNote={(id) => setCurrNoteId(id)} titleEditingId={titleEditingId} setTitleEditingId={setTitleEditingId}/>
+                <NoteSelector notes={notes} setNotes={setNotes} openNote={(id) => setCurrNoteId(id)} titleEditingId={titleEditingId} setTitleEditingId={setTitleEditingId}/>
             </Col>
             <Col xs={"4"} style={{margin:"0", padding:"0", height:"100vh", overflowY:"scoll"}}>
                 <ReactQuill

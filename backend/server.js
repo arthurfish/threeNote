@@ -80,6 +80,16 @@ async function startServer() {
             res.end();
         }
     })
+
+    app.put("/notes", (req, res) => {
+        console.log("Post request to /notes")
+        console.log(`[Server] Request body: ${JSON.stringify(req.body)}`)
+        for (const note of req.body.notes) {
+            NoteModel.findOneAndUpdate({id: note.id}, note, {upsert: true}).then(() => {
+                console.log(`Update Note titled ${note.title}to DB.`)
+            })
+        }
+    })
 }
 
 startServer()
