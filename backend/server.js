@@ -58,10 +58,10 @@ async function startServer() {
 
         const stream = await client.chat.completions.create({
             model: 'gpt-4o',
-            messages: [{role: 'user', content: prompt}],
+            messages: [{role: 'user', content: prompt + "（如果有公式请把公式用latex语法表示并放到$$..$$里面）"}],
             stream: true,
         });
-
+//WTF?
         try {
             for await (const chunk of stream) {
                 const content = chunk.choices[0]?.delta?.content || '';
