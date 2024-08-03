@@ -25,7 +25,12 @@ function App() {
 
     useEffect(() => {
         if (notes?.length === 0) {
-            fetchNotes(setNotes)
+            fetchNotes((notes) => {
+                setNotes(notes)
+                if(notes.length > 0){
+                    setCurrNoteId(notes[0].id)
+                }
+            })
         }
     }, [notes]);
 
@@ -106,7 +111,7 @@ function App() {
                     style={{height:"100%", width:"100%"}}
                     ref={quillRef} theme={"snow"} value={notes.filter(x=>x.id===currNoteId)[0]?.content}/>
             </Col>
-            <Col xs={"5"} style={{paddingLeft: "20px", paddingTop: "20px", paddingRight:"0"}}>
+            <Col xs={"5"} style={{padding: "12px", margin:"0"}}>
                 <AiResponse quillRef={quillRef}/>
             </Col>
         </Row>
