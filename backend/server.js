@@ -61,7 +61,7 @@ async function startServer() {
             messages: [{role: 'user', content: prompt}],
             stream: true,
         });
-
+//WTF?
         try {
             for await (const chunk of stream) {
                 const content = chunk.choices[0]?.delta?.content || '';
